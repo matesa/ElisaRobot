@@ -1,7 +1,7 @@
 
 {
-  "name": "Elisa Robot",
-  "description": "Modular Telegram group management bot!",
+  "name": "NightCrew Robot",
+  "description": "Modüler Telegram grup yönetimi botu!",
   "keywords": [
     "telegram",
     "best",
@@ -9,7 +9,7 @@
     "manager",
     "3"
   ],
-  "repository": "hhttps://github.com/QueenArzoo/ElisaRobot.git",
+  "repository": "https://github.com/matesa/ElisaRobot.git",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable env variables",
@@ -25,11 +25,11 @@
     },
     "OWNER_ID": {
       "description": "An integer of consisting of your owner ID",
-      "value": "1200780834"
+      "value": "1557151130"
     },
     "OWNER_USERNAME": {
       "description": "Your username",
-      "value": "ArzooOfficial"
+      "value": "Poyraz2103"
     },
   
     "URL": {
@@ -38,15 +38,15 @@
     },
     "MESSAGE_DUMP": {
       "description": "optional: a chat where your replied saved messages are stored, to stop people deleting their old",
-      "value": "-1007777777777"
+      "value": "-522161897"
     },
     "SUDO_USERS": {
       "description": "A space separated list of user_ids which should be considered sudo users",
-      "value": "1049081438 1089434386 797768146"
+      "value": "1557151130"
     },
     "SUPPORT_USERS": {
       "description": "A space separated list of user_ids which should be considered support users (can gban/ungban, nothing else)",
-      "value": "1049081438 1089434386 797768146"
+      "value": "1557151130"
     },
     "WHITELIST_USERS": {
       "description": "A space separated list of user_ids which should be considered whitelisted - they can't be banned.",
@@ -54,7 +54,7 @@
     },
     "DONATION_LINK": {
       "description": "Optional: link where you would like to receive donations.",
-      "value": "https://www.paypal.me/Your_id_here"
+      "value": "https://t.me/Poyraz2103"
     },
     "PORT": {
       "description": "Port to use for your webhooks",
