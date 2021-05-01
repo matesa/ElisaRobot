@@ -20,14 +20,14 @@ from haruka.modules.helper_funcs.misc import paginate_modules
 from haruka.modules.translations.strings import tld, tld_help 
 from haruka.modules.connection import connected
 
-PM_START = """Hello {}, my name is {}! if you have any questions about how to use me please give me /help... 
+PM_START = """Merhaba {}, benim adım {}! Beni nasıl kullanacağınızla ilgili sorularınız varsa lütfen bana /help komutunu gönderin... 
 
-I'm a group manager bot maintained by @GarimaQueen.
+@Poyraz2103 ve @sarlockHolmes tarafından yönetilen bir grup yöneticisi botuyum..
 
-Add me to a group by [clicking here](http://t.me/ElisaRobot?startgroup=true).
+Burya tıklayarak beni grubuna ekle [Gruba ekle](http://t.me/NightCrewRobot?startgroup=true).
 
-🚨 Anti Ripping Organization 🚨
-You can join Fed or Subscribe to remove Rippers from your Groups [here](t.me/AntiRippingOrganization)
+🎵Müzik kanalımıza Katılmak için Tıklayın🎵
+GOOD VİBES ŞARKI DÜNYASI [GOODVİBES](t.me/Fmsarkilar)
 
 """
 
@@ -53,7 +53,7 @@ for module_name in ALL_MODULES:
     if not imported_module.__mod_name__.lower() in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        raise Exception("Can't have two modules with the same name! Please change one")
+        raise Exception("Aynı ada sahip iki modül olamaz! Lütfen birini değiştirin")
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
@@ -98,7 +98,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(bot: Bot, update: Update):
     #pprint(eval(str(update)))
     #update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Bu kişi bir mesajı düzenledi")
     print(update.effective_message)
 
 
@@ -112,7 +112,7 @@ def start(bot: Bot, update: Update, args: List[str]):
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, tld(chat.id, "send-help").format(
                      dispatcher.bot.first_name, "" if not ALLOW_EXCL else tld(
-                         chat.id, "\nAll commands can either be used with `/` or `!`.\n"
+                         chat.id, "\nTüm komutlar `/` veya `!` ile kullanılabilir.\n"
                              )))
 
             elif args[0].lower().startswith("stngs_"):
@@ -132,7 +132,7 @@ def start(bot: Bot, update: Update, args: List[str]):
         else:
             send_start(bot, update)
     else:
-        update.effective_message.reply_text("I'm alive")
+        update.effective_message.reply_text("yaşıyorum")
 
 def send_start(bot, update):
     #Try to remove old message
@@ -146,9 +146,9 @@ def send_start(bot, update):
     first_name = update.effective_user.first_name 
     text = PM_START
 
-    keyboard = [[InlineKeyboardButton(text="🇮🇳 Language", callback_data="set_lang_")]]
-    keyboard += [[InlineKeyboardButton(text="🛠 Reporting", callback_data="cntrl_panel_M"), 
-        InlineKeyboardButton(text="❔ Help", callback_data="help_back")]]
+    keyboard = [[InlineKeyboardButton(text="Dil", callback_data="set_lang_")]]
+    keyboard += [[InlineKeyboardButton(text="🛠 Raporlama", callback_data="cntrl_panel_M"), 
+        InlineKeyboardButton(text="❔ Yardım", callback_data="help_back")]]
 
     update.effective_message.reply_text(PM_START.format(escape_markdown(first_name), bot.first_name), reply_markup=InlineKeyboardMarkup(keyboard), disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN)
 
@@ -161,7 +161,7 @@ def control_panel(bot, update):
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:
 
-        update.effective_message.reply_text("Contact me in PM to access the control panel.",
+        update.effective_message.reply_text("Kontrol paneline erişmek için PM'de bana ulaşın.",
                                             reply_markup=InlineKeyboardMarkup(
                                                 [[InlineKeyboardButton(text="Control Panel",
                                                                        url=f"t.me/{bot.username}?start=controlpanel")]]))
@@ -179,12 +179,12 @@ def control_panel(bot, update):
 
         LOGGER.info(query.data)
     else:
-        M_match = "ThaNos is the best bot" #LMAO, don't uncomment
+        M_match = "NightCrew En iyi bottur" #LMAO, don't uncomment
 
     if M_match:
         text = "*Control panel* 🛠"
 
-        keyboard = [[InlineKeyboardButton(text="👤 My settings", callback_data="cntrl_panel_U(1)")]]
+        keyboard = [[InlineKeyboardButton(text="👤 Ayarlarım", callback_data="cntrl_panel_U(1)")]]
 
         #Show connected chat and add chat settings button
         conn = connected(bot, update, chat, user.id, need_admin=False)
@@ -196,17 +196,17 @@ def control_panel(bot, update):
             #If user admin
             member = chatG.get_member(user.id)
             if member.status in ('administrator', 'creator'):
-                text += f"\nConnected chat - *{chatG.title}* (you {member.status})"
-                keyboard += [[InlineKeyboardButton(text="👥 Group settings", callback_data="cntrl_panel_G_back")]]
+                text += f"\nBağlı sohbet - *{chatG.title}* (you {member.status})"
+                keyboard += [[InlineKeyboardButton(text="👥 Grup Ayarları", callback_data="cntrl_panel_G_back")]]
             elif user.id in SUDO_USERS:
-                text += f"\nConnected chat - *{chatG.title}* (you sudo)"
-                keyboard += [[InlineKeyboardButton(text="👥 Group settings (SUDO)", callback_data="cntrl_panel_G_back")]]
+                text += f"\nBağlı sohbet - *{chatG.title}* (you sudo)"
+                keyboard += [[InlineKeyboardButton(text="👥 Grup Ayarları (SUDO)", callback_data="cntrl_panel_G_back")]]
             else:
-                text += f"\nConnected chat - *{chatG.title}* (you aren't an admin!)"
+                text += f"\nBağlı sohbet - *{chatG.title}* (bir yönetici değilsiniz!)"
         else:
-            text += "\nNo chat connected!"
+            text += "\nBağlı sohbet yok!"
 
-        keyboard += [[InlineKeyboardButton(text="Back", callback_data="bot_start")]]
+        keyboard += [[InlineKeyboardButton(text="Geri", callback_data="bot_start")]]
 
         update.effective_message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.MARKDOWN)
 
@@ -221,7 +221,7 @@ def control_panel(bot, update):
 
             R = CHAT_SETTINGS[module].__user_settings__(bot, update, user)
 
-            text = "You has the following settings for the *{}* module:\n\n".format(
+            text = " *{}* modülü için aşağıdaki ayarlara sahipsiniz:\n\n".format(
                 CHAT_SETTINGS[module].__mod_name__) + R[0]
 
             keyboard = R[1]
@@ -230,7 +230,7 @@ def control_panel(bot, update):
             query.message.reply_text(text=text, arse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(keyboard))
 
         elif back_match:
-            text = "*User control panel* 🛠"
+            text = "*Kullanıcı kontrol paneli* 🛠"
             
             query.message.reply_text(text=text, parse_mode=ParseMode.MARKDOWN,
                     reply_markup=InlineKeyboardMarkup(paginate_modules(user.id, 0, USER_SETTINGS, "cntrl_panel_U")))
@@ -247,7 +247,7 @@ def control_panel(bot, update):
         if not conn == False:
             chat = bot.getChat(conn)
         else:
-            query.message.reply_text(text="Error with connection to chat")
+            query.message.reply_text(text="Sohbet bağlantısında hata")
             exit(1)
 
         if mod_match:
@@ -261,10 +261,10 @@ def control_panel(bot, update):
                 text = R
                 keyboard = []
 
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(
+            text = "*{}*,*{}* modülü için şu ayarlara sahiptir:\n\n".format(
                 escape_markdown(chat.title), CHAT_SETTINGS[module].__mod_name__) + text
 
-            keyboard += [[InlineKeyboardButton(text="Back", callback_data="cntrl_panel_G_back")]]
+            keyboard += [[InlineKeyboardButton(text="Geri", callback_data="cntrl_panel_G_back")]]
                 
             query.message.reply_text(text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(keyboard))
 
@@ -272,7 +272,7 @@ def control_panel(bot, update):
             chat_id = prev_match.group(1)
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(tld(user.id, "send-group-settings").format(chat.title),
+            query.message.reply_text(tld(user.id, "grup-ayarları gönder").format(chat.title),
                                     reply_markup=InlineKeyboardMarkup(
                                         paginate_modules(curr_page - 1, 0, CHAT_SETTINGS, "cntrl_panel_G",
                                                         chat=chat_id)))
@@ -281,7 +281,7 @@ def control_panel(bot, update):
             chat_id = next_match.group(1)
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(tld(user.id, "send-group-settings").format(chat.title),
+            query.message.reply_text(tld(user.id, "grup-ayarları gönder").format(chat.title),
                                     reply_markup=InlineKeyboardMarkup(
                                         paginate_modules(next_page + 1, 0, CHAT_SETTINGS, "cntrl_panel_G",
                                                         chat=chat_id)))
@@ -338,11 +338,11 @@ def help_button(bot: Bot, update: Update):
             if help_txt == False:
                 help_txt = HELPABLE[module].__help__
 
-            text = tld(chat.id, "Here is the help for the *{}* module:\n{}").format(mod_name, help_txt)
+            text = tld(chat.id, "İşte *{}* modülü için yardım:\n{}").format(mod_name, help_txt)
             query.message.reply_text(text=text,
                                      parse_mode=ParseMode.MARKDOWN,
                                      reply_markup=InlineKeyboardMarkup(
-                                         [[InlineKeyboardButton(text=tld(chat.id, "Back"), callback_data="help_back")]]))
+                                         [[InlineKeyboardButton(text=tld(chat.id, "Geri"), callback_data="help_back")]]))
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
@@ -370,14 +370,14 @@ def help_button(bot: Bot, update: Update):
         bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
-        if excp.message == "Message is not modified":
+        if excp.message == "Mesaj değiştirilmedi":
             pass
         elif excp.message == "Query_id_invalid":
             pass
-        elif excp.message == "Message can't be deleted":
+        elif excp.message == "Mesaj silinemez":
             pass
         else:
-            LOGGER.exception("Exception in help buttons. %s", str(query.data))
+            LOGGER.exception("Yardım düğmelerinde. %s", str(query.data))
 
 
 @run_async
@@ -388,7 +388,7 @@ def get_help(bot: Bot, update: Update):
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:
 
-        update.effective_message.reply_text("Contact me in PM to get the list of possible commands.",
+        update.effective_message.reply_text("Olası komutların listesini almak için PM'de bana ulaşın.",
                                             reply_markup=InlineKeyboardMarkup(
                                                 [[InlineKeyboardButton(text="Help",
                                                                        url="t.me/{}?start=help".format(
@@ -403,12 +403,12 @@ def get_help(bot: Bot, update: Update):
         if help_txt == False:
             help_txt = HELPABLE[module].__help__
 
-        text = tld(chat.id, "Here is the help for the *{}* module:\n{}").format(mod_name, help_txt)
-        send_help(chat.id, text, InlineKeyboardMarkup([[InlineKeyboardButton(text=tld(chat.id, "Back"), callback_data="help_back")]]))
+        text = tld(chat.id, "İşte *{}* modülü için yardım:\n{}").format(mod_name, help_txt)
+        send_help(chat.id, text, InlineKeyboardMarkup([[InlineKeyboardButton(text=tld(chat.id, "Geri"), callback_data="help_back")]]))
 
     else:
         send_help(chat.id, tld(chat.id, "send-help").format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else tld(
-            chat.id, "\nAll commands can either be used with `/` or `!`.\n"
+            chat.id, "\nTüm komutlar `/` veya `!` ile kullanılabilir.\n"
                 )))
 
 def send_settings(chat_id, user_id, user=False):
@@ -416,24 +416,24 @@ def send_settings(chat_id, user_id, user=False):
         if USER_SETTINGS:
             settings = "\n\n".join(
                 "*{}*:\n{}".format(mod.__mod_name__, mod.__user_settings__(user_id)) for mod in USER_SETTINGS.values())
-            dispatcher.bot.send_message(user_id, "These are your current settings:" + "\n\n" + settings,
+            dispatcher.bot.send_message(user_id, "Bunlar mevcut ayarlarınızdır:" + "\n\n" + settings,
                                         parse_mode=ParseMode.MARKDOWN)
 
         else:
-            dispatcher.bot.send_message(user_id, "Seems like there aren't any user specific settings available :'(",
+            dispatcher.bot.send_message(user_id, "Kullanıcıya özel herhangi bir ayar yok gibi görünüyor :'(",
                                         parse_mode=ParseMode.MARKDOWN)
 
     else:
         if CHAT_SETTINGS:
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(user_id,
-                                        text="Which module would you like to check {}'s settings for?".format(
+                                        text="{}'ın ayarlarını hangi modül için kontrol etmek istersiniz?".format(
                                             chat_name),
                                         reply_markup=InlineKeyboardMarkup(
                                             paginate_modules(user_id, 0, CHAT_SETTINGS, "stngs", chat=chat_id)))
         else:
-            dispatcher.bot.send_message(user_id, "Seems like there aren't any chat settings available :'(\nSend this "
-                                                 "in a group chat you're admin in to find its current settings!",
+            dispatcher.bot.send_message(user_id, "Kullanılabilir sohbet ayarı yok gibi görünüyor :'(\nSend this "
+                                                 "bir grup sohbetinde mevcut ayarlarını bulmak için yöneticisiniz!",
                                         parse_mode=ParseMode.MARKDOWN)
 
 
@@ -451,21 +451,21 @@ def settings_button(bot: Bot, update: Update):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(escape_markdown(chat.title),
+            text = "*{}*, *{}* modülü için şu ayarlara sahiptir:\n\n".format(escape_markdown(chat.title),
                                                                                      CHAT_SETTINGS[
                                                                                          module].__mod_name__) + \
                    CHAT_SETTINGS[module].__chat_settings__(bot, update, chat, chatP, user)
             query.message.reply_text(text=text,
                                      parse_mode=ParseMode.MARKDOWN,
                                      reply_markup=InlineKeyboardMarkup(
-                                         [[InlineKeyboardButton(text="Back",
+                                         [[InlineKeyboardButton(text="Geri",
                                                                 callback_data="stngs_back({})".format(chat_id))]]))
 
         elif prev_match:
             chat_id = prev_match.group(1)
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(tld(user.id, "send-group-settings").format(chat.title),
+            query.message.reply_text(tld(user.id, "grup-ayarları gönder").format(chat.title),
                                      reply_markup=InlineKeyboardMarkup(
                                          paginate_modules(curr_page - 1, CHAT_SETTINGS, "stngs",
                                                           chat=chat_id)))
@@ -474,7 +474,7 @@ def settings_button(bot: Bot, update: Update):
             chat_id = next_match.group(1)
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(tld(user.id, "send-group-settings").format(chat.title),
+            query.message.reply_text(tld(user.id, "grup-ayarları gönder").format(chat.title),
                                      reply_markup=InlineKeyboardMarkup(
                                          paginate_modules(next_page + 1, CHAT_SETTINGS, "stngs",
                                                           chat=chat_id)))
@@ -482,7 +482,7 @@ def settings_button(bot: Bot, update: Update):
         elif back_match:
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
-            query.message.reply_text(text=tld(user.id, "send-group-settings").format(escape_markdown(chat.title)),
+            query.message.reply_text(text=tld(user.id, "grup-ayarları gönder").format(escape_markdown(chat.title)),
                                      parse_mode=ParseMode.MARKDOWN,
                                      reply_markup=InlineKeyboardMarkup(paginate_modules(user.id, 0, CHAT_SETTINGS, "stngs",
                                                                                         chat=chat_id)))
@@ -491,14 +491,14 @@ def settings_button(bot: Bot, update: Update):
         bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
-        if excp.message == "Message is not modified":
+        if excp.message == "Mesaj değiştirilmedi":
             pass
         elif excp.message == "Query_id_invalid":
             pass
-        elif excp.message == "Message can't be deleted":
+        elif excp.message == "Mesaj silinemez":
             pass
         else:
-            LOGGER.exception("Exception in settings buttons. %s", str(query.data))
+            LOGGER.exception("Ayarlar düğmelerinde istisna. %s", str(query.data))
 
 
 @run_async
@@ -511,14 +511,14 @@ def get_settings(bot: Bot, update: Update):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Bu sohbetin yanı sıra sizinkini almak için burayı tıklayın."
             msg.reply_text(text,
                            reply_markup=InlineKeyboardMarkup(
                                [[InlineKeyboardButton(text="Settings",
                                                       url="t.me/{}?start=stngs_{}".format(
                                                           bot.username, chat.id))]]))
         else:
-            text = "Click here to check your settings."
+            text = "Ayarlarınızı kontrol etmek için burayı tıklayın."
 
     else:
         send_settings(chat.id, user.id, True)
@@ -540,7 +540,7 @@ def migrate_chats(bot: Bot, update: Update):
     for mod in MIGRATEABLE:
         mod.__migrate__(old_chat, new_chat)
 
-    LOGGER.info("Successfully migrated!")
+    LOGGER.info("Başarıyla taşındı!")
     raise DispatcherHandlerStop
 
 
@@ -578,7 +578,7 @@ def main():
     Dispatcher.process_update = process_update
 
     if WEBHOOK:
-        LOGGER.info("Using webhooks.")
+        LOGGER.info("Web kancalarını kullanma.")
         updater.start_webhook(listen="0.0.0.0",
                               port=PORT,
                               url_path=TOKEN)
@@ -590,7 +590,7 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info("Using long polling.")
+        LOGGER.info("Uzun yoklama kullanma..")
         updater.start_polling(timeout=15, read_latency=4)
 
     updater.idle()
@@ -605,7 +605,7 @@ def process_update(self, update):
         try:
             self.dispatch_error(None, update)
         except Exception:
-            self.logger.exception('An uncaught error was raised while handling the error')
+            self.logger.exception('Hatayı işlerken yakalanmamış bir hata ortaya çıktı')
         return
 
     now = datetime.datetime.utcnow()
@@ -630,27 +630,27 @@ def process_update(self, update):
 
         # Stop processing with any other handler.
         except DispatcherHandlerStop:
-            self.logger.debug('Stopping further handlers due to DispatcherHandlerStop')
+            self.logger.debug('DispatcherHandlerStop nedeniyle diğer işleyicileri durdurma')
             break
 
         # Dispatch any error.
         except TelegramError as te:
-            self.logger.warning('A TelegramError was raised while processing the Update')
+            self.logger.warning('Güncelleme işlenirken bir Telegram Hatası oluştu')
 
             try:
                 self.dispatch_error(update, te)
             except DispatcherHandlerStop:
-                self.logger.debug('Error handler stopped further handlers')
+                self.logger.debug('Hata işleyici diğer işleyicileri durdurdu')
                 break
             except Exception:
-                self.logger.exception('An uncaught error was raised while handling the error')
+                self.logger.exception('Hatayı işlerken yakalanmamış bir hata ortaya çıktı')
 
         # Errors should not stop the thread.
         except Exception:
-            self.logger.exception('An uncaught error was raised while processing the update')
+            self.logger.exception('Güncelleme işlenirken yakalanmamış bir hata ortaya çıktı')
 
 
 if __name__ == '__main__':
-    LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
-    LOGGER.info("Successfully loaded")
+    LOGGER.info("Başarıyla yüklenen modüller: " + str(ALL_MODULES))
+    LOGGER.info("Başarıyla yüklendi")
     main()
